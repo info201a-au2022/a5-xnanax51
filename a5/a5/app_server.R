@@ -2,8 +2,9 @@ library(shiny)
 library(ggplot2)
 library(tidyverse)
 library(plotly)
-
-co2_data <- read.csv("~/Documents/info201/data/owid-co2-data.csv")
+library(zipcodeR)
+library(terra)
+co2_data <- read.csv("https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv")
 
 
 cleaned_data <- co2_data %>%
@@ -102,7 +103,9 @@ server <- function(input, output) {
     geom_point(aes(color = country)) +
     labs(x = "Year",
          y= "CO2",
-         title = "Change in CO2 from 1850 to 2021")
+         title = "Change in CO2 from 1850 to 2021",
+         caption = "This chart shows the change of CO2 from 1850 to 2021 where you select a country from the
+         widget to see the change throughout the year.")
   })
   
   
@@ -123,7 +126,9 @@ server <- function(input, output) {
       geom_point(mapping = aes_string(x = input$x_var, y = input$y_var), 
                  size = input$size, 
                  color = input$color) +
-      labs(x = input$x_var, y = input$y_var, title = title)
+      labs(x = input$x_var, y = input$y_var, title = title,
+           caption = "In this chart, you can select the x and y variable that you want to compare with and you can choose a country
+           where you want to focus on.")
     p
   })
   
